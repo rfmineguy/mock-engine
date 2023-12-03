@@ -12,7 +12,9 @@ FetchContent_MakeAvailable(glm)
 FetchContent_Declare(stb GIT_REPOSITORY https://github.com/nothings/stb.git)
 FetchContent_MakeAvailable(stb)
 
-add_executable(mock-engine src/main_functional.cpp)
+set (SOURCES src/Input.cpp src/RenderCtx.cpp)
+
+add_executable(mock-engine src/main_functional.cpp ${SOURCES})
 target_include_directories(mock-engine PRIVATE include/ ${glfw_SOURCE_DIR}/include/ ${glm_SOURCE_DIR}/ ${stb_SOURCE_DIR})
 
 set_property(TARGET mock-engine PROPERTY CXX_STANDARD 20)

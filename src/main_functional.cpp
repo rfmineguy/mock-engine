@@ -6,15 +6,6 @@
 #include "Engine/Resource.hpp"
 #include "Engine/Input.hpp"
 
-namespace Engine {
-	// BASIC TYPES
-
-	// DATA
-
-	// FUNCTIONS
-
-};
-
 struct PlayerData {
 	int x, y;
 };
@@ -33,7 +24,7 @@ int main() {
 		[&](PlayerData& data, Engine::RenderCtx& ctx) {
 			ctx.DrawRect({0, 0}, {0, 0});
 			ctx.DrawEllipse({0, 0}, 10, 20);
-			ctx.DrawTexturedRect({0, 0}, {0, 0}, Engine::GetResource<Engine::Texture>("player-texture"));
+			// ctx.DrawTexturedRect({0, 0}, {0, 0}, Engine::GetResource<Engine::Texture>("player-texture"));
 		}
 	);
 	Engine::RunApp(
