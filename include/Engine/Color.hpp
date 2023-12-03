@@ -6,6 +6,8 @@
 namespace Engine {
 	struct Color {
 		int r, g, b, a;
+		public:
+		Color(): r(0), g(0), b(0), a(0) {}
 		private:
 		Color(int r, int g, int b, int a): r(r), g(g), b(b), a(a) {}
 

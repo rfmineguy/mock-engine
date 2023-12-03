@@ -34,6 +34,7 @@ int main() {
 			settings.resizable = true;
 			settings.windowSize = Engine::Vector2(600, 600);
 			settings.title = "Game";
+			settings.clearColor = Engine::Color::FromRGB(100, 100, 100);
 			return settings;
 		}
 	);
