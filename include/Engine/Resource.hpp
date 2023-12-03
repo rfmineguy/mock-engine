@@ -4,10 +4,9 @@
 
 namespace Engine {
 	template <typename T>
-	void AddResource(const std::string&);
-
-	template <typename T>
-	const T& GetResource(const std::string&);
+	class Resource {
+	public:
+		virtual T Load(const std::string&) const = 0;
+	};
 }
-
 #endif

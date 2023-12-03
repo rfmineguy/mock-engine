@@ -25,7 +25,15 @@ FetchContent_MakeAvailable(spdlog)
 FetchContent_Declare(stb GIT_REPOSITORY https://github.com/nothings/stb.git)
 FetchContent_MakeAvailable(stb)
 
-set (SOURCES src/App.cpp src/Engine.cpp src/Input.cpp src/RenderCtx.cpp)
+set (SOURCES 
+	src/Texture.cpp
+	#src/TextureAtlas.cpp
+	src/Resource.cpp
+	src/ResourceManager.cpp
+	src/Engine.cpp
+	src/Input.cpp
+	src/App.cpp
+	src/RenderCtx.cpp)
 
 add_executable(mock-engine src/main_functional.cpp ${SOURCES})
 target_include_directories(mock-engine PRIVATE include/ ${glfw_SOURCE_DIR}/include/ ${glm_SOURCE_DIR}/ ${stb_SOURCE_DIR} ${spdlog_SOURCE_DIR}/include/spdlog)

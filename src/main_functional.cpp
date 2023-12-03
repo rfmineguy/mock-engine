@@ -3,7 +3,8 @@
 #include "Engine/Engine.hpp"
 #include "Engine/App.hpp"
 #include "Engine/Texture.hpp"
-#include "Engine/Resource.hpp"
+#include "Engine/TextureAtlas.hpp"
+#include "Engine/ResourceManager.hpp"
 #include "Engine/Input.hpp"
 #include "Engine/Vector.hpp"
 
@@ -12,6 +13,9 @@ struct PlayerData {
 };
 
 int main() {
+	Engine::AddResource<Engine::Texture>("player", "player.png");
+	Engine::AddResource<Engine::TextureAtlas>("animation", "animation.png");
+
 	Engine::NewEntity<PlayerData>("player",
 		[&](PlayerData& data) {
 			// start
@@ -25,7 +29,7 @@ int main() {
 		[&](PlayerData& data, Engine::RenderCtx& ctx) {
 			ctx.DrawRect({0, 0}, {0, 0});
 			ctx.DrawEllipse({0, 0}, 10, 20);
-			// ctx.DrawTexturedRect({0, 0}, {0, 0}, Engine::GetResource<Engine::Texture>("player-texture"));
+			ctx.DrawTexturedRect({0, 0}, {10, 10}, Engine::GetResource<Engine::Texture>("player"));
 		}
 	);
 	Engine::RunApp(
