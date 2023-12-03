@@ -12,6 +12,8 @@ namespace Engine {
 		Vector2 windowSize;
 		std::string title;
 		Color clearColor;
+
+		AppSettings(): targetFPS(30), resizable(true), windowSize(600, 600), title("Default Window"), clearColor() {}
 	};
 
 	void RunApp(std::function<AppSettings(AppSettings)>);

@@ -27,6 +27,7 @@ namespace Engine {
 			exit(1);
 		}
 		glfwMakeContextCurrent(w);
+		spdlog::info("Created glfw window");
 		return w;
 	}
 
