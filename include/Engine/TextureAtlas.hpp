@@ -4,13 +4,16 @@
 #include "Texture.hpp"
 
 namespace Engine {
-	class TextureAtlas : public Resource<TextureAtlas> {
+	class TextureAtlas : public Texture {
+	public:
+		TextureAtlas();
+		~TextureAtlas();
 		int GetFramesWide() const;
 		int GetFramesTall() const;
 		int GetFrameWidth() const;
 		int GetFrameHeight() const;
 
-		TextureAtlas Load(const std::string&) const;
+		void Load(const std::string&) const;
 	};
 }
 

@@ -16,6 +16,8 @@ int main() {
 	Engine::AddResource<Engine::Texture>("player", "player.png");
 	Engine::AddResource<Engine::TextureAtlas>("animation", "animation.png");
 
+	spdlog::info("Loaded resource count: {}", Engine::Internal::resources.size());
+
 	Engine::NewEntity<PlayerData>("player",
 		[&](PlayerData& data) {
 			// start

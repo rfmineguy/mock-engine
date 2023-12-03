@@ -27,7 +27,7 @@ FetchContent_MakeAvailable(stb)
 
 set (SOURCES 
 	src/Texture.cpp
-	#src/TextureAtlas.cpp
+	src/TextureAtlas.cpp
 	src/Resource.cpp
 	src/ResourceManager.cpp
 	src/Engine.cpp

@@ -3,10 +3,10 @@
 #include <string>
 
 namespace Engine {
-	template <typename T>
 	class Resource {
 	public:
-		virtual T Load(const std::string&) const = 0;
+		virtual void Load(const std::string&) const = 0;
 	};
 }
+
 #endif

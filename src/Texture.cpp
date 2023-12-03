@@ -1,6 +1,13 @@
 #include "Engine/Texture.hpp"
+#include "spdlog.h"
 
 namespace Engine {
+	Texture::Texture() {
+	}
+
+	Texture::~Texture() {
+	}
+
 	int Texture::GetWidth() const {
 		return -1;
 	}
@@ -19,5 +26,9 @@ namespace Engine {
 
 	int Texture::GetChannels() const {
 		return -1;
+	}
+
+	void Texture::Load(const std::string& filename) const {
+		spdlog::info("Loading {}", filename);
 	}
 }

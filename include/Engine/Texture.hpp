@@ -4,16 +4,17 @@
 #include "Resource.hpp"
 
 namespace Engine {
-	class Texture : public Resource<Texture> {
+	class Texture : public Resource {
 	public:
-		Texture() = default;
+		Texture();
+		~Texture();
 		int GetWidth() const;
 		int GetHeight() const;
 		float GetAspectRatio() const;
 		int GetBitDepth() const;
 		int GetChannels() const;
 
-		Texture Load(const std::string&) const;
+		void Load(const std::string&) const;
 	};
 }
 
