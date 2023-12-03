@@ -50,11 +50,28 @@ namespace Engine {
 		spdlog::info("Initialized glad");
 
 		// Main loop ...
+		double t, fps;
+		double t0 = glfwGetTime();
+		double deltaTime = 0;
+
+		int frameCount = 0;
 		while (!glfwWindowShouldClose(w)) {
 			glClearColor(settings.clearColor.r / 255.f, settings.clearColor.g / 255.f, settings.clearColor.b / 255.f, settings.clearColor.a / 255.f);
 			glClear(GL_COLOR_BUFFER_BIT);
-			glfwPollEvents();
+
+			// calculate fps
+			t = glfwGetTime();
+			if ((t - t0) > 1.0 || frameCount == 0) {
+				fps = (double) frameCount / (t - t0);
+				glfwSetWindowTitle(w, (settings.title + std::to_string(fps) + ":" + std::to_string(deltaTime)).c_str());
+				deltaTime = t - t0;
+				t0 = t;
+				frameCount = 0;
+			}
+			frameCount++;
+
 			glfwSwapBuffers(w);
+			glfwPollEvents();
 		}
 
 		// Teardown/Deinitialization ...
