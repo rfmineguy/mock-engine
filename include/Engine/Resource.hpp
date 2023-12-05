@@ -4,8 +4,13 @@
 
 namespace Engine {
 	class Resource {
-	public:
-		virtual void Load(const std::string&) const = 0;
+		protected:
+			std::string resourceId, path;
+		protected:
+			struct LoadData {
+				std::string path;
+			};
+			Resource(const std::string&);
 	};
 }
 

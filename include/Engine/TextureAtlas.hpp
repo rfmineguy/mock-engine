@@ -6,7 +6,15 @@
 namespace Engine {
 	class TextureAtlas : public Texture {
 	public:
-		TextureAtlas();
+		struct LoadData : public Texture::LoadData {
+			int frameWidth;
+			int frameHeight;
+			int framesWide;
+			int framesHigh;
+		};
+	public:
+		// TextureAtlas() = delete;
+		TextureAtlas(const LoadData&);
 		~TextureAtlas();
 		int GetFramesWide() const;
 		int GetFramesTall() const;

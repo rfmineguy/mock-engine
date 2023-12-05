@@ -1,4 +1,6 @@
 #include "Engine/App.hpp"
+#include "Engine/ResourceManager.hpp"
+#include "Engine/Logger.hpp"
 #include "glad/glad.h"
 #include "GLFW/glfw3.h"
 #include "spdlog.h"
@@ -37,6 +39,8 @@ namespace Engine {
 	 *    	2. Window management
 	 */
 	void RunApp(std::function<AppSettings(AppSettings)> settingsFunc) {
+		auto logger = spdlog::get(Engine::MAIN_LOGGER);
+
 		if (settingsFunc == nullptr) {
 			spdlog::critical("Missing settings");
 			exit(1);
@@ -68,6 +72,7 @@ namespace Engine {
 				deltaTime = t - t0;
 				t0 = t;
 				frameCount = 0;
+				spdlog::info("Resource pool. {}", Engine::Internal::ResourceManager::resources().size());
 			}
 			frameCount++;
 
@@ -75,7 +80,7 @@ namespace Engine {
 			glfwPollEvents();
 		}
 
-		// Teardown/Deinitialization ...
+		Engine::FreeResources();
 		glfwDestroyWindow(w);
 		glfwTerminate();
 	}

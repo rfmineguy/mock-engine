@@ -1,5 +1,8 @@
 cmake_minimum_required(VERSION 3.20)
 project(mock-engine LANGUAGES C CXX)
+add_compile_options(-ggdb)
+# add_compile_options(-fsanitize=address)
+# add_link_options(-fsanitize=address)
 
 include(FetchContent)
 
@@ -26,6 +29,7 @@ FetchContent_Declare(stb GIT_REPOSITORY https://github.com/nothings/stb.git)
 FetchContent_MakeAvailable(stb)
 
 set (SOURCES 
+	src/Logger.cpp
 	src/Texture.cpp
 	src/TextureAtlas.cpp
 	src/Resource.cpp

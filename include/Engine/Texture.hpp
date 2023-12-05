@@ -5,8 +5,18 @@
 
 namespace Engine {
 	class Texture : public Resource {
+	protected:
+		std::string path;
+		int width, height;
+
 	public:
-		Texture();
+		struct LoadData : public Resource::LoadData {
+			int width;
+			int height;
+		};
+	public:
+		// Texture() = delete;
+		Texture(const LoadData&);
 		~Texture();
 		int GetWidth() const;
 		int GetHeight() const;

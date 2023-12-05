@@ -13,10 +13,22 @@ struct PlayerData {
 };
 
 int main() {
-	Engine::AddResource<Engine::Texture>("player", "player.png");
-	Engine::AddResource<Engine::TextureAtlas>("animation", "animation.png");
+	Engine::Init();
+	// Engine::AddResource<Engine::Texture>("player", "player.png");
+	// Engine::AddResource<Engine::TextureAtlas>("animation", "animation.png", 32, 32);
 
-	spdlog::info("Loaded resource count: {}", Engine::Internal::resources.size());
+	Engine::NewResource<Engine::Texture, Engine::Texture::LoadData>("test", [&](Engine::Texture::LoadData& data) {
+		data.path = "assets/test.png";
+		data.width = 100;
+		data.height = 100;
+	});
+
+	Engine::NewResource<Engine::TextureAtlas, Engine::TextureAtlas::LoadData>("player", [&](Engine::TextureAtlas::LoadData& data) {
+		data.path = "assets/player.png";
+		data.frameWidth = 32;
+		data.frameHeight = 32;
+		spdlog::info("Loading texture Atlas");
+	});
 
 	Engine::NewEntity<PlayerData>("player",
 		[&](PlayerData& data) {
@@ -34,6 +46,7 @@ int main() {
 			ctx.DrawTexturedRect({0, 0}, {10, 10}, Engine::GetResource<Engine::Texture>("player"));
 		}
 	);
+
 	Engine::RunApp(
 		[&](Engine::AppSettings settings) {
 			settings.targetFPS = 30;

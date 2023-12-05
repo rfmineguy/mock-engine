@@ -8,6 +8,8 @@
 namespace Engine {
 	template <typename T>
 	void NewEntity(const std::string&, std::function<void(T&)>, std::function<void(T&, double)>, std::function<void(T&, RenderCtx&)>);
+
+	void Init();
 }
 
 template <typename T>

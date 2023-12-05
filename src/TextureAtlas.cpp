@@ -1,11 +1,14 @@
 #include "Engine/TextureAtlas.hpp"
 #include "spdlog.h"
+#include <iostream>
 
 namespace Engine {
-	TextureAtlas::TextureAtlas(): Texture() {
+	TextureAtlas::TextureAtlas(const LoadData& loadData): Texture(loadData) {
+		spdlog::info("  <TextureAtlas> path={}", loadData.path);
 	}
 
 	TextureAtlas::~TextureAtlas() {
+		spdlog::info("	</TextureAtlas> path={}", path);
 	}
 
 	int TextureAtlas::GetFramesWide() const {
@@ -22,9 +25,5 @@ namespace Engine {
 
 	int TextureAtlas::GetFrameHeight() const {
 		return -1;
-	}
-
-	void TextureAtlas::Load(const std::string& filename) const {
-		spdlog::info("Loading {}", filename);
 	}
 }
