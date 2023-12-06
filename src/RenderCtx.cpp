@@ -3,7 +3,7 @@
 namespace Engine {
 	void RenderCtx::DrawRect(Vector2 c1, Vector2 c2, Color c) {
 	}
-	void RenderCtx::DrawTexturedRect(Vector2 c1, Vector2 c2, const Texture& t, Color c) {
+	void RenderCtx::DrawTexturedRect(Vector2 c1, Vector2 c2, std::shared_ptr<Texture> t, Color c) {
 	}
 	void RenderCtx::DrawLine(Vector2 p1, Vector2 p2, Color c) {
 	}

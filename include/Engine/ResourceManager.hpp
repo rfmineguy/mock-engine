@@ -33,7 +33,7 @@ namespace Engine {
 	void AddResource(const std::string&, const std::string&, Args... args);
 
 	template <typename T>
-	const T& GetResource(const std::string&);
+	const std::shared_ptr<T> GetResource(const std::string&);
 
 	// NEW API
 	template <typename T, typename TData>
@@ -54,8 +54,15 @@ namespace Engine {
 	}
 
 	template <typename T>
-	const T& GetResource(const std::string& id) {
-		spdlog::info("Getting resource with id:{}", id);
+	const std::shared_ptr<T> GetResource(const std::string& id) {
+		static_assert(std::is_base_of<Resource, T>::value, "Attempted to retrieve a resource of incorrect form");
+		auto& resourceMap = Engine::Internal::ResourceManager::resources();
+		if (resourceMap.find(id) == resourceMap.end()) {
+			spdlog::critical("The resource '{}' has not been registered yet. I'm giving you a null texture.", id);
+			return nullptr; //TODO: Give back a default texture
+		}
+		auto resource = Engine::Internal::ResourceManager::resources().at(id);
+		return std::static_pointer_cast<T, Resource>(Engine::Internal::ResourceManager::resources().at(id).data);
 	}
 
 	template <typename T, typename TData>
@@ -66,7 +73,6 @@ namespace Engine {
 		Internal::ResourceEntry e = Internal::ResourceEntry(resource);
 
 		Engine::Internal::ResourceManager::resources().emplace(id, e);
-		spdlog::info("Putting resource into pool");
 	}
 
 	void FreeResources() {

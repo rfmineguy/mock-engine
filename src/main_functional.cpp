@@ -2,6 +2,7 @@
 #include <functional>
 #include "Engine/Engine.hpp"
 #include "Engine/App.hpp"
+#include "Engine/RenderCtx.hpp"
 #include "Engine/Texture.hpp"
 #include "Engine/TextureAtlas.hpp"
 #include "Engine/ResourceManager.hpp"
@@ -14,8 +15,6 @@ struct PlayerData {
 
 int main() {
 	Engine::Init();
-	// Engine::AddResource<Engine::Texture>("player", "player.png");
-	// Engine::AddResource<Engine::TextureAtlas>("animation", "animation.png", 32, 32);
 
 	Engine::NewResource<Engine::Texture, Engine::Texture::LoadData>("test", [&](Engine::Texture::LoadData& data) {
 		data.path = "assets/test.png";
@@ -27,25 +26,11 @@ int main() {
 		data.path = "assets/player.png";
 		data.frameWidth = 32;
 		data.frameHeight = 32;
-		spdlog::info("Loading texture Atlas");
 	});
 
-	Engine::NewEntity<PlayerData>("player",
-		[&](PlayerData& data) {
-			// start
-		},
-		[&](PlayerData& data, double dt) {
-			if (Engine::Input::IsKeyDown('a')) data.x --;
-			if (Engine::Input::IsKeyDown('d')) data.x ++;
-			if (Engine::Input::IsKeyDown('w')) data.y --;
-			if (Engine::Input::IsKeyDown('s')) data.y ++;
-		},
-		[&](PlayerData& data, Engine::RenderCtx& ctx) {
-			ctx.DrawRect({0, 0}, {0, 0});
-			ctx.DrawEllipse({0, 0}, 10, 20);
-			ctx.DrawTexturedRect({0, 0}, {10, 10}, Engine::GetResource<Engine::Texture>("player"));
-		}
-	);
+	if (auto t = Engine::GetResource<Engine::Texture>("test2")) {
+		spdlog::info("'test': Texture => width={}, height={}", t->GetWidth(), t->GetHeight());
+	}
 
 	Engine::RunApp(
 		[&](Engine::AppSettings settings) {
@@ -54,6 +39,33 @@ int main() {
 			settings.windowSize = Engine::Vector2(600, 600);
 			settings.clearColor = Engine::Color::FromRGB(100, 100, 100);
 			return settings;
+		},
+		[&](Engine::Scene scene) {
+			scene.AddEntity<PlayerData>("Player",
+				[&](PlayerData& data) {
+					// start
+				},
+				[&](PlayerData& data, double dt) {
+					if (Engine::Input::IsKeyDown('a')) data.x --;
+					if (Engine::Input::IsKeyDown('d')) data.x ++;
+					if (Engine::Input::IsKeyDown('w')) data.y --;
+					if (Engine::Input::IsKeyDown('s')) data.y ++;
+				},
+				[&](PlayerData& data, Engine::RenderCtx& ctx) {
+					ctx.DrawRect({0, 0}, {0, 0});
+					ctx.DrawEllipse({0, 0}, 10, 20);
+					ctx.DrawTexturedRect({0, 0}, {10, 10}, Engine::GetResource<Engine::Texture>("player"));
+				}
+			);
+			scene.AddEntity<PlayerData>("enemy",
+				[&](PlayerData& data) {
+				}, 
+				[&](PlayerData& data, double dt) {
+				},
+				[&](PlayerData& data, Engine::RenderCtx& ctx) {
+				}
+			);
+			return scene;
 		}
 	);
 }

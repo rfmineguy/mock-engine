@@ -3,7 +3,8 @@
 #include <iostream>
 
 namespace Engine {
-	Texture::Texture(const LoadData& loadData): Resource(loadData.path) {
+	Texture::Texture(const LoadData& loadData)
+		: Resource(loadData.path), path(loadData.path), width(loadData.width), height(loadData.height) {
 		spdlog::info("<Texture> path={}", loadData.path);
 	}
 
@@ -13,15 +14,15 @@ namespace Engine {
 	}
 
 	int Texture::GetWidth() const {
-		return -1;
+		return width;
 	}
 
 	int Texture::GetHeight() const {
-		return -1;
+		return height;
 	}
 
 	float Texture::GetAspectRatio() const {
-		return -1;
+		return (float) GetWidth() / GetHeight();
 	}
 
 	int Texture::GetBitDepth() const {
