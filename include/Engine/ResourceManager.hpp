@@ -45,7 +45,7 @@ namespace Engine {
 namespace Engine {
 	template <typename T, typename... Args>
 	void AddResource(const std::string& id, const std::string &filepath, Args... args) {
-		static_assert(std::is_base_of<Resource, T>::value, "Attempted to create resource of incorrect form (required to be base of Resource)");
+		static_assert(std::is_base_of<Resource, T>::value, "Attempted to create resource of incorrect form (required to have base of Resource)");
 
 		std::shared_ptr<Resource> resource = std::make_shared<T>(filepath);
 		Internal::ResourceEntry e = Internal::ResourceEntry(resource);

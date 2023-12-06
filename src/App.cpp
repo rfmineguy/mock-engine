@@ -38,7 +38,7 @@ namespace Engine {
 	 *    	1. Handles events
 	 *    	2. Window management
 	 */
-	void RunApp(std::function<AppSettings(AppSettings)> settingsFunc) {
+	void RunApp(std::function<AppSettings(AppSettings)> settingsFunc, std::function<void(Scene&)> sceneFunc) {
 		auto logger = spdlog::get(Engine::MAIN_LOGGER);
 
 		if (settingsFunc == nullptr) {
@@ -48,6 +48,9 @@ namespace Engine {
 
 		// Setup/Initialization ...
 		AppSettings settings = settingsFunc(AppSettings{});
+		Scene scene = {};
+		sceneFunc(scene);
+
 		GLFWwindow* w = SetupGLFW(settings);
 		spdlog::info("Initialized window");
 
