@@ -42,30 +42,6 @@ int main() {
 			return settings;
 		},
 		[&](Engine::Scene& scene) {
-			// scene.AddEntity<PlayerData>("player",
-			// 	[&](PlayerData& data) {
-			// 		// start
-			// 	},
-			// 	[&](PlayerData& data, double dt) {
-			// 		if (Engine::Input::IsKeyDown('a')) data.x --;
-			// 		if (Engine::Input::IsKeyDown('d')) data.x ++;
-			// 		if (Engine::Input::IsKeyDown('w')) data.y --;
-			// 		if (Engine::Input::IsKeyDown('s')) data.y ++;
-			// 	},
-			// 	[&](PlayerData& data, Engine::RenderCtx& ctx) {
-			// 		ctx.DrawRect({0, 0}, {0, 0});
-			// 		ctx.DrawEllipse({0, 0}, 10, 20);
-			// 		ctx.DrawTexturedRect({0, 0}, {10, 10}, Engine::GetResource<Engine::Texture>("player"));
-			// 	}
-			// );
-			// scene.AddEntity<PlayerData>("enemy",
-			// 	[&](PlayerData& data) {
-			// 	}, 
-			// 	[&](PlayerData& data, double dt) {
-			// 	},
-			// 	[&](PlayerData& data, Engine::RenderCtx& ctx) {
-			// 	}
-			// );
 			scene.AddEntity<PlayerEntity>("enemy");
 		}
 	);
