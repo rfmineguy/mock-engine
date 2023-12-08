@@ -44,14 +44,11 @@ int main() {
 		},
 		[&](Engine::Scene& scene) {
 			scene.GetRoot()->AddChild<PlayerEntity>("player");
-			// Engine::Scene::Node* n = scene.GetNodeWithId("player");
-			// if (n) {
-			// 	spdlog::info("Found scene node player");
-			// }
-			// else {
-			// 	spdlog::critical("Failed to find scene node player");
-			// }
-			// scene.Traverse();
+			scene.GetRoot()->AddChild<PlayerEntity>("akfhf");
+			if (Engine::Scene::Node* n = scene.GetNodeWithId("akfhf")) {
+				spdlog::info("Found akfhf");
+			}
+			scene.Traverse();
 		}
 	);
 }
