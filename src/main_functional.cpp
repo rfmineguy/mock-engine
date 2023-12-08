@@ -8,6 +8,7 @@
 #include "Engine/ResourceManager.hpp"
 #include "Engine/Input.hpp"
 #include "Engine/Vector.hpp"
+#include "Engine/Scene.hpp"
 #include "Test/PlayerEntity.hpp"
 
 struct PlayerData {
@@ -42,7 +43,15 @@ int main() {
 			return settings;
 		},
 		[&](Engine::Scene& scene) {
-			scene.AddEntity<PlayerEntity>("enemy");
+			scene.GetRoot()->AddChild<PlayerEntity>("player");
+			// Engine::Scene::Node* n = scene.GetNodeWithId("player");
+			// if (n) {
+			// 	spdlog::info("Found scene node player");
+			// }
+			// else {
+			// 	spdlog::critical("Failed to find scene node player");
+			// }
+			// scene.Traverse();
 		}
 	);
 }

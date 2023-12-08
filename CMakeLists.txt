@@ -29,6 +29,7 @@ FetchContent_Declare(stb GIT_REPOSITORY https://github.com/nothings/stb.git)
 FetchContent_MakeAvailable(stb)
 
 set (SOURCES 
+	src/Test/PlayerEntity.cpp
 	src/Scene.cpp
 	src/Logger.cpp
 	src/Texture.cpp

@@ -67,6 +67,7 @@ namespace Engine {
 
 	template <typename T, typename TData>
 	void NewResource(const std::string& id, std::function<void (TData&)> func) {
+		static_assert(std::is_base_of<Resource, T>::value, "Attempted to create resource of incorrect form (required to have base of Resource)");
 		TData d;
 		func(d);
 		std::shared_ptr<Resource> resource = std::make_shared<T>(d);
