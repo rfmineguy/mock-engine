@@ -14,7 +14,6 @@
 #include "spdlog.h"
 
 int main() {
-	Engine::Init();
 	Engine::App app = Engine::App(
 		[&](std::shared_ptr<Engine::ResourceManager> manager) {
 			manager->NewResource<Engine::Texture, Engine::Texture::LoadData>("player", [&](Engine::Texture::LoadData& data) {
@@ -28,9 +27,9 @@ int main() {
 			});
 		},
 		[&](Engine::AppSettings& settings) {
-			settings.resizable = true;
 			settings.windowSize = Engine::Vector2 {600, 600};
 			settings.clearColor = Engine::Color::FromRGB(40, 80, 70);
+			settings.enableVsync = true;
 			settings.title = "Game";
 		},
 		[&](Engine::Scene& scene) {

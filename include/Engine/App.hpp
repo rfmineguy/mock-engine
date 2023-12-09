@@ -12,13 +12,21 @@
 
 namespace Engine {
 	struct AppSettings {
-		int targetFPS;
+		bool enableVsync;
 		bool resizable;
 		Vector2 windowSize;
 		std::string title;
 		Color clearColor;
+		int glMajorVersion, glMinorVersion;
 
-		AppSettings(): targetFPS(30), resizable(true), windowSize(600, 600), title("Default Window"), clearColor() {}
+		AppSettings(): 
+			enableVsync(true),
+			resizable(true),
+			windowSize(600, 600),
+			title("Default Window"),
+			clearColor(),
+			glMajorVersion(3),
+			glMinorVersion(3) {}
 	};
 
 	typedef std::function<void(std::shared_ptr<ResourceManager>)> ResourceFunc;

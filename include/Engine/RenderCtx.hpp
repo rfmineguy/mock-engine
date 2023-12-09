@@ -5,6 +5,7 @@
 #include "Texture.hpp"
 
 namespace Engine {
+#define BATCH_SIZE 10
 	class RenderCtx {
 	public:
 
@@ -15,6 +16,9 @@ namespace Engine {
 		void DrawLine(Vector2 p1, Vector2 p2, Color c = Color::White());
 		void DrawCircle(Vector2 center, float r, Color c = Color::White());
 		void DrawEllipse(Vector2 center, float r1, float r2, Color c = Color::White());
+
+	public:
+		void RenderBatches() const; // NOTE: For later.
 	};
 }
 

@@ -19,6 +19,7 @@ void PlayerEntity::Update(double dt) {
 void PlayerEntity::Render(Engine::RenderCtx& ctx) const {
 	spdlog::info("Player entity render");
 	if (auto t = resourceManager->GetResource<Engine::Texture>("player")) {
+		ctx.DrawRect({100, 100}, {300, 300});
 		spdlog::info("PlayerEntity found player texture");
 	}
 }

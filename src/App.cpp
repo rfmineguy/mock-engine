@@ -1,6 +1,8 @@
 #include "Engine/App.hpp"
 #include "Engine/ResourceManager.hpp"
 #include "Engine/Logger.hpp"
+#include "Engine/Engine.hpp"
+#include "GLFW/glfw3.h"
 #include "glad/glad.h"
 #include "spdlog.h"
 
@@ -8,14 +10,13 @@ namespace Engine {
 	App::App(ResourceFunc resFunc, AppSettingsFunc settingsFunc, SceneFunc sceneFunc)
 	: resourceFunc(resFunc), appSettingsFunc(settingsFunc), sceneFunc(sceneFunc), resourceManager(std::make_shared<ResourceManager>()) {}
 	
-	App::~App() {
-		
-	}
+	App::~App() {}
 
 	GLFWwindow* App::NewWindow(const AppSettings& settings) {
 		glfwWindowHint(GLFW_RESIZABLE, settings.resizable ? GLFW_TRUE : GLFW_FALSE);
-		glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
-		glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
+		glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, settings.glMinorVersion);
+		glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, settings.glMajorVersion);
+		glfwSwapInterval(settings.enableVsync ? 1 : 0);
 		GLFWwindow* w = glfwCreateWindow(
 			settings.windowSize.x, settings.windowSize.y, settings.title.c_str(), nullptr, nullptr
 		);
@@ -40,6 +41,9 @@ namespace Engine {
 	}
 
 	void App::Run() {
+		// Run some preliminary initialization
+		Engine::Init();
+
 		// Get app settings
 		AppSettings settings = AppSettings{};
 		appSettingsFunc(settings);
@@ -87,9 +91,7 @@ namespace Engine {
 			glfwPollEvents();
 		}
 
-		// Engine::FreeResources();
 		glfwDestroyWindow(w);
 		glfwTerminate();
-
 	}
 }
