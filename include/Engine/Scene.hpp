@@ -21,7 +21,7 @@ namespace Engine {
 			Node(): entity(nullptr), parent(nullptr) {} // NOTE: Should only be used as root node
 			Node(std::shared_ptr<IEntity> entity): entity(entity), parent(nullptr), children() {}
 			~Node() {
-				spdlog::info("Deleting node");
+				// spdlog::info("Deleting node");
 				for (auto* child : children) {
 					delete child;
 					child = nullptr;

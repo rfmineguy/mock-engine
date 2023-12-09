@@ -2,11 +2,17 @@
 #include "Engine/ResourceManager.hpp"
 #include "Engine/Logger.hpp"
 #include "glad/glad.h"
-#include "GLFW/glfw3.h"
 #include "spdlog.h"
 
 namespace Engine {
-	GLFWwindow* NewWindow(const AppSettings& settings) {
+	App::App(ResourceFunc resFunc, AppSettingsFunc settingsFunc, SceneFunc sceneFunc)
+	: resourceFunc(resFunc), appSettingsFunc(settingsFunc), sceneFunc(sceneFunc) {}
+	
+	App::~App() {
+		
+	}
+
+	GLFWwindow* App::NewWindow(const AppSettings& settings) {
 		glfwWindowHint(GLFW_RESIZABLE, settings.resizable ? GLFW_TRUE : GLFW_FALSE);
 		glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
 		glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
@@ -16,7 +22,7 @@ namespace Engine {
 		return w;
 	}
 
-	GLFWwindow* SetupGLFW(const AppSettings& settings) {
+	GLFWwindow* App::GLFWInit(const AppSettings& settings) {
 		if (!glfwInit()) {
 			spdlog::critical("glfwInit failed - closing application");
 			glfwTerminate();
@@ -33,30 +39,22 @@ namespace Engine {
 		return w;
 	}
 
-	/**
-	 *    Main loop for application
-	 *    	1. Handles events
-	 *    	2. Window management
-	 */
-	void RunApp(std::function<AppSettings(AppSettings)> settingsFunc, std::function<void(Scene&)> sceneFunc) {
-		auto logger = spdlog::get(Engine::MAIN_LOGGER);
+	void App::Run() {
+		// Get app settings
+		AppSettings settings = AppSettings{};
+		appSettingsFunc(settings);
+		GLFWwindow* w = GLFWInit(settings);
 
-		if (settingsFunc == nullptr) {
-			spdlog::critical("Missing settings");
-			exit(1);
-		}
-
-		// Setup/Initialization ...
-		AppSettings settings = settingsFunc(AppSettings{});
-		Scene scene = {};
-		sceneFunc(scene);
-
-		GLFWwindow* w = SetupGLFW(settings);
-		spdlog::info("Initialized window");
-
+		// Load glad
 		int version = gladLoadGL();
-		spdlog::info("Initialized glad");
+		spdlog::info("Glad GL version {}", version);
+		
+		// glad required for this
+		resourceFunc(resourceManager);
 
+		// load scene
+		sceneFunc(scene);
+		
 		// Main loop ...
 		double t, fps;
 		double t0 = glfwGetTime();
@@ -66,6 +64,11 @@ namespace Engine {
 		while (!glfwWindowShouldClose(w)) {
 			glClearColor(settings.clearColor.r / 255.f, settings.clearColor.g / 255.f, settings.clearColor.b / 255.f, settings.clearColor.a / 255.f);
 			glClear(GL_COLOR_BUFFER_BIT);
+			// render here
+			/* 1. Traverse the scene heirarchy somehow
+			 * 2. Accumulate the translation as we traverse so it appears that a parent/child relationship exists
+			 * 3. Batch what each entity renders (FUTURE)
+			 */
 
 			// calculate fps
 			t = glfwGetTime();
@@ -75,7 +78,7 @@ namespace Engine {
 				deltaTime = t - t0;
 				t0 = t;
 				frameCount = 0;
-				spdlog::info("Resource pool. {}", Engine::Internal::ResourceManager::resources().size());
+				// spdlog::info("Resource pool. {}", Engine::Internal::ResourceManager::resources().size());
 			}
 			frameCount++;
 
@@ -83,8 +86,9 @@ namespace Engine {
 			glfwPollEvents();
 		}
 
-		Engine::FreeResources();
+		// Engine::FreeResources();
 		glfwDestroyWindow(w);
 		glfwTerminate();
+
 	}
 }

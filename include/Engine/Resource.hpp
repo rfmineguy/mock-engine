@@ -11,6 +11,7 @@ namespace Engine {
 				std::string path;
 			};
 			Resource(const std::string&);
+		friend class ResourceManager;
 	};
 }
 

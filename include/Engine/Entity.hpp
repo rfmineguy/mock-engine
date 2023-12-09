@@ -10,7 +10,7 @@ class IEntity {
 	protected:
 		IEntity(const std::string& id): id(id) {}
 		virtual ~IEntity() {
-			spdlog::info("Destroy entity");
+			// spdlog::info("Destroy entity");
 		}
 	public:
 		virtual void Start() = 0;

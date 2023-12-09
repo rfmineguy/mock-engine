@@ -37,7 +37,7 @@ namespace Engine {
 
 	void Scene::PrintSpaces(int count) const {
 		for (int i = 0; i < count; i++) {
-			std::cout << ' ';
+			std::cout << "   ";
 		}
 		std::cout << "\\_";
 	}

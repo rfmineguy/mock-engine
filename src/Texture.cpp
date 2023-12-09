@@ -1,5 +1,6 @@
 #include "Engine/Texture.hpp"
 #include "spdlog.h"
+#include <functional>
 #include <iostream>
 
 namespace Engine {

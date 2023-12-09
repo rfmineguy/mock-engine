@@ -5,7 +5,10 @@
 #include "Texture.hpp"
 
 namespace Engine {
-	struct RenderCtx {
+	class RenderCtx {
+	public:
+
+	public:
 		// NOTE: this should be a layered rendering context (1-100) or something
 		void DrawRect(Vector2 c1, Vector2 c2, Color c = Color::White());
 		void DrawTexturedRect(Vector2 c1, Vector2 c2, std::shared_ptr<Texture> t, Color c = Color::White());
