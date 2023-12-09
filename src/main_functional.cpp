@@ -16,18 +16,22 @@
 int main() {
 	Engine::Init();
 	Engine::App app = Engine::App(
-		[&](Engine::ResourceManager& manager) {
-			manager.NewResource<Engine::Texture, Engine::Texture::LoadData>("player", [&](Engine::Texture::LoadData& data) {
+		[&](std::shared_ptr<Engine::ResourceManager> manager) {
+			manager->NewResource<Engine::Texture, Engine::Texture::LoadData>("player", [&](Engine::Texture::LoadData& data) {
 				data.path = "assets/player.png";
 				data.width = 32;
 				data.height = 32;
 			});
-			manager.NewResource<Engine::Shader, Engine::Shader::LoadData>("main_shader", [&](Engine::Shader::LoadData& data) {
+			manager->NewResource<Engine::Shader, Engine::Shader::LoadData>("main_shader", [&](Engine::Shader::LoadData& data) {
 				data.vertex_path = "assets/my_shader.vert.glsl";
 				data.fragment_path = "assets/my_shader.frag.glsl";
 			});
 		},
 		[&](Engine::AppSettings& settings) {
+			settings.resizable = true;
+			settings.windowSize = Engine::Vector2 {600, 600};
+			settings.clearColor = Engine::Color::FromRGB(40, 80, 70);
+			settings.title = "Game";
 		},
 		[&](Engine::Scene& scene) {
 			scene.GetRoot()->AddChild<PlayerEntity>("player");

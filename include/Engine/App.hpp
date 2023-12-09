@@ -21,12 +21,12 @@ namespace Engine {
 		AppSettings(): targetFPS(30), resizable(true), windowSize(600, 600), title("Default Window"), clearColor() {}
 	};
 
-	typedef std::function<void(ResourceManager&)> ResourceFunc;
+	typedef std::function<void(std::shared_ptr<ResourceManager>)> ResourceFunc;
 	typedef std::function<void(AppSettings&)> AppSettingsFunc;
 	typedef std::function<void(Scene&)> SceneFunc;
 	class App {
 		private:
-			ResourceManager resourceManager;
+			std::shared_ptr<ResourceManager> resourceManager;
 			Scene scene;
 		private:
 			ResourceFunc resourceFunc;
@@ -41,7 +41,7 @@ namespace Engine {
 			GLFWwindow* GLFWInit(const AppSettings&);
 	};
 	void RunApp(
-			std::function<void(ResourceManager&)>,
+			std::function<void(std::weak_ptr<ResourceManager>)>,
 			std::function<AppSettings(AppSettings)>,
 			std::function<void(Scene&)>
 			);

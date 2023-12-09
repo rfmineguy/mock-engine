@@ -7,7 +7,6 @@ namespace Engine {
 	Shader::Shader(const Shader::LoadData& data)
 		: Resource(data.path) {
 		if (!data.fragment_path.empty() && !data.vertex_path.empty()) {
-			spdlog::info("Shader constructor");
 			unsigned int fragmentID = InitShader(data.fragment_path, GL_FRAGMENT_SHADER);
 			unsigned int vertexID = InitShader(data.vertex_path, GL_VERTEX_SHADER);
 			shaderID = LinkShader(vertexID, fragmentID);
@@ -35,7 +34,6 @@ namespace Engine {
 			spdlog::critical("Can't create the shader with GLenum type: {} -> {}", GetShaderString((GLenum)type), type);
 			return -1;
 		}
-		spdlog::info("InitShader");
 		int success;
 		char infoLog[512];
 		

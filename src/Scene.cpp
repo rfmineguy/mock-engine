@@ -1,9 +1,10 @@
 #include "Engine/Scene.hpp"
+#include "Engine/ResourceManager.hpp"
 #include <iostream>
 
 namespace Engine {
-	Scene::Scene(): root(new Scene::Node()) {
-	
+	Scene::Scene(): resourceManager(std::make_shared<ResourceManager>()) {
+		root = new Scene::Node(resourceManager);
 	}
 	Scene::~Scene() {
 		delete root;

@@ -6,7 +6,7 @@
 
 namespace Engine {
 	App::App(ResourceFunc resFunc, AppSettingsFunc settingsFunc, SceneFunc sceneFunc)
-	: resourceFunc(resFunc), appSettingsFunc(settingsFunc), sceneFunc(sceneFunc) {}
+	: resourceFunc(resFunc), appSettingsFunc(settingsFunc), sceneFunc(sceneFunc), resourceManager(std::make_shared<ResourceManager>()) {}
 	
 	App::~App() {
 		
@@ -54,6 +54,7 @@ namespace Engine {
 
 		// load scene
 		sceneFunc(scene);
+		scene.resourceManager = resourceManager;
 		
 		// Main loop ...
 		double t, fps;
