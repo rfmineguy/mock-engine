@@ -32,6 +32,8 @@ namespace Engine {
 		const std::shared_ptr<T> GetResource(const std::string&) const;
 
 		void Clear();
+
+		int Count() const { return resourceMap.size(); }
 	};
 }
 
@@ -43,13 +45,14 @@ namespace Engine {
 		TData d;
 		func(d);
 		resourceMap.emplace(id, ResourceEntry(std::make_shared<T>(d)));
+		spdlog::info("New resource registered: {}", id);
 	}
 
 	template <typename T>
 	const std::shared_ptr<T> ResourceManager::GetResource(const std::string& id) const {
 		static_assert(std::is_base_of<Resource, T>::value, "Attempted to retrieve a resource of incorrect form");
 		if (resourceMap.find(id) == resourceMap.end()) {
-			spdlog::critical("The resource '{}' has not been registered yet. I'm giving you a null texture.", id);
+			// spdlog::critical("The resource '{}' has not been registered yet. I'm giving you a null texture.", id);
 			return nullptr; //TODO: Give back a default texture
 		}
 		return std::static_pointer_cast<T, Resource>(resourceMap.at(id).data);

@@ -25,6 +25,8 @@ int main() {
 				data.vertex_path = "assets/my_shader.vert.glsl";
 				data.fragment_path = "assets/my_shader.frag.glsl";
 			});
+
+			std::cout << manager->Count() << std::endl;
 		},
 		[&](Engine::AppSettings& settings) {
 			settings.windowSize = Engine::Vector2 {600, 600};
@@ -34,6 +36,9 @@ int main() {
 		},
 		[&](Engine::Scene& scene) {
 			scene.GetRoot()->AddChild<PlayerEntity>("player");
+			scene.GetNodeWithId("player")->AddChild<PlayerEntity>("entity");
+			scene.GetNodeWithId("player")->AddChild<PlayerEntity>("entity2");
+			scene.GetNodeWithId("entity2")->AddChild<PlayerEntity>("entity3");
 			scene.Traverse();
 		}
 	);

@@ -1,9 +1,9 @@
 #include "../Engine/Entity.hpp"
 #include "Engine/ResourceManager.hpp"
 
-class PlayerEntity : public IEntity {
+class PlayerEntity : public Engine::IEntity {
 public:
-	PlayerEntity(const std::string& id, std::shared_ptr<Engine::ResourceManager>);
+	PlayerEntity(const std::string& id);
 	~PlayerEntity();
 	void Start() override;
 	void Update(double dt) override;

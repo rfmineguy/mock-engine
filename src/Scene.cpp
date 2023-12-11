@@ -3,8 +3,9 @@
 #include <iostream>
 
 namespace Engine {
-	Scene::Scene(): resourceManager(std::make_shared<ResourceManager>()) {
-		root = new Scene::Node(resourceManager);
+	Scene::Scene() {
+		// resource manager set in App.cpp
+		// root = new Scene::Node(resourceManager); in wrong place
 	}
 	Scene::~Scene() {
 		delete root;

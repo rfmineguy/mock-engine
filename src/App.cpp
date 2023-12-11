@@ -1,4 +1,5 @@
 #include "Engine/App.hpp"
+#include "Engine/RenderCtx.hpp"
 #include "Engine/ResourceManager.hpp"
 #include "Engine/Logger.hpp"
 #include "Engine/Engine.hpp"
@@ -56,9 +57,13 @@ namespace Engine {
 		// glad required for this
 		resourceFunc(resourceManager);
 
+		//
+		// NOTE: The start function for entities is called when they are added to the scene heirarchy
+		//
+
 		// load scene
+		scene.root = new Scene::Node(resourceManager);
 		sceneFunc(scene);
-		scene.resourceManager = resourceManager;
 		
 		// Main loop ...
 		double t, fps;
@@ -75,6 +80,8 @@ namespace Engine {
 			 * 3. Batch what each entity renders (FUTURE)
 			 */
 
+			RenderScene(scene.root, ctx);
+
 			// calculate fps
 			t = glfwGetTime();
 			if ((t - t0) > 1.0 || frameCount == 0) {
@@ -83,7 +90,6 @@ namespace Engine {
 				deltaTime = t - t0;
 				t0 = t;
 				frameCount = 0;
-				// spdlog::info("Resource pool. {}", Engine::Internal::ResourceManager::resources().size());
 			}
 			frameCount++;
 
@@ -93,5 +99,23 @@ namespace Engine {
 
 		glfwDestroyWindow(w);
 		glfwTerminate();
+	}
+
+	// NOTE: What if we keep track of the transformation via the RenderCtx?
+	void App::RenderScene(Scene::Node* node, RenderCtx& ctx) {
+		if (node->entity == nullptr) {}
+		else {
+			// Render node. RenderCtx transformation will be updated here
+			auto e = node->entity;
+			if (!e->resourceManager) e->resourceManager = resourceManager; 
+			e->Render(ctx);
+		}
+
+		for (auto* n : node->children) {
+			const bool DEBUG_PRINT = false;
+			ctx.Push(DEBUG_PRINT ? n->entity->GetID() : "");
+			RenderScene(n, ctx);
+			ctx.Pop(DEBUG_PRINT ? n->entity->GetID() : "");
+		}
 	}
 }

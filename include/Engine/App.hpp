@@ -9,6 +9,7 @@
 #include <string>
 #define GLFW_INCLUDE_NONE
 #include "GLFW/glfw3.h"
+#include "glm/glm.hpp"
 
 namespace Engine {
 	struct AppSettings {
@@ -36,6 +37,7 @@ namespace Engine {
 		private:
 			std::shared_ptr<ResourceManager> resourceManager;
 			Scene scene;
+			RenderCtx ctx;
 		private:
 			ResourceFunc resourceFunc;
 			AppSettingsFunc appSettingsFunc;
@@ -45,14 +47,16 @@ namespace Engine {
 			~App();
 			void Run();
 		private:
+			void RenderScene(Scene::Node*, RenderCtx&);
+		private:
 			GLFWwindow* NewWindow(const AppSettings&);
 			GLFWwindow* GLFWInit(const AppSettings&);
 	};
 	void RunApp(
-			std::function<void(std::weak_ptr<ResourceManager>)>,
-			std::function<AppSettings(AppSettings)>,
-			std::function<void(Scene&)>
-			);
+		std::function<void(std::weak_ptr<ResourceManager>)>,
+		std::function<AppSettings(AppSettings)>,
+		std::function<void(Scene&)>
+	);
 }
 
 #endif
