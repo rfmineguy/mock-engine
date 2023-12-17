@@ -45,7 +45,7 @@ namespace Engine {
 	}
 
 	void Scene::TraverseRec(Scene::Node* node, int depth) const {
-		PrintSpaces(depth);
+		PrintSpaces(depth);		 // creates a tree visual
 		if (node == nullptr) { // doesnt happen
 			std::cout << "NULL" << std::endl;
 			return;

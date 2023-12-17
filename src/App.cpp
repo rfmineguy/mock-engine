@@ -1,4 +1,5 @@
 #include "Engine/App.hpp"
+#include "Engine/Entity.hpp"
 #include "Engine/RenderCtx.hpp"
 #include "Engine/ResourceManager.hpp"
 #include "Engine/Logger.hpp"
@@ -8,6 +9,15 @@
 #include "spdlog.h"
 
 namespace Engine {
+	class RootEntity : public Engine::IEntity {
+		public:
+			RootEntity(): IEntity("root") {}
+			~RootEntity() {}
+			void Start() override {}
+			void Update(double dt) override {}
+			void Render(RenderCtx& ctx) const override {}
+	};
+
 	App::App(ResourceFunc resFunc, AppSettingsFunc settingsFunc, SceneFunc sceneFunc)
 	: resourceFunc(resFunc), appSettingsFunc(settingsFunc), sceneFunc(sceneFunc), resourceManager(std::make_shared<ResourceManager>()) {}
 	
@@ -62,8 +72,8 @@ namespace Engine {
 		//
 
 		// load scene
-		scene.root = new Scene::Node(resourceManager);
-		sceneFunc(scene);
+		sceneRoot = new RootEntity();
+		sceneFunc(sceneRoot);
 		
 		// Main loop ...
 		double t, fps;
@@ -80,7 +90,7 @@ namespace Engine {
 			 * 3. Batch what each entity renders (FUTURE)
 			 */
 
-			RenderScene(scene.root, ctx);
+			RenderScene(sceneRoot, ctx);
 
 			// calculate fps
 			t = glfwGetTime();
@@ -102,20 +112,19 @@ namespace Engine {
 	}
 
 	// NOTE: What if we keep track of the transformation via the RenderCtx?
-	void App::RenderScene(Scene::Node* node, RenderCtx& ctx) {
-		if (node->entity == nullptr) {}
+	void App::RenderScene(IEntity* node, RenderCtx& ctx) {
+		if (node == nullptr) {}
 		else {
 			// Render node. RenderCtx transformation will be updated here
-			auto e = node->entity;
-			if (!e->resourceManager) e->resourceManager = resourceManager; 
-			e->Render(ctx);
+			if (!node->resourceManager) node->resourceManager = resourceManager; 
+			node->Render(ctx);
 		}
 
 		for (auto* n : node->children) {
 			const bool DEBUG_PRINT = false;
-			ctx.Push(DEBUG_PRINT ? n->entity->GetID() : "");
+			ctx.Push(DEBUG_PRINT ? n->GetID() : "");
 			RenderScene(n, ctx);
-			ctx.Pop(DEBUG_PRINT ? n->entity->GetID() : "");
+			ctx.Pop(DEBUG_PRINT ? n->GetID() : "");
 		}
 	}
 }

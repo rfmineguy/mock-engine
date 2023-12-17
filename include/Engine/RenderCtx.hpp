@@ -17,6 +17,8 @@ namespace Engine {
 	private:
 		Transform activeTransformation;
 		std::stack<Transform> transformStack;
+		//TODO: Work on adding actual geometry
+		// Mesh quad; 
 
 	private:
 		void RecomputeTransformation();
@@ -31,6 +33,8 @@ namespace Engine {
 		void DrawCircle(glm::vec2 center, float r, Color c = Color::White());
 		void DrawEllipse(glm::vec2 center, float r1, float r2, Color c = Color::White());
 
+	public:
+		void DrawText(const std::string&, glm::vec2, int, Color c = Color::White());
 	public:
 		void Push(const std::string&);
 		void Pop(const std::string&);

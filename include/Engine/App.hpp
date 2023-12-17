@@ -32,12 +32,13 @@ namespace Engine {
 
 	typedef std::function<void(std::shared_ptr<ResourceManager>)> ResourceFunc;
 	typedef std::function<void(AppSettings&)> AppSettingsFunc;
-	typedef std::function<void(Scene&)> SceneFunc;
+	typedef std::function<void(IEntity*)> SceneFunc;
 	class App {
 		private:
 			std::shared_ptr<ResourceManager> resourceManager;
-			Scene scene;
+			// Scene scene;
 			RenderCtx ctx;
+			IEntity* sceneRoot;
 		private:
 			ResourceFunc resourceFunc;
 			AppSettingsFunc appSettingsFunc;
@@ -47,16 +48,11 @@ namespace Engine {
 			~App();
 			void Run();
 		private:
-			void RenderScene(Scene::Node*, RenderCtx&);
+			void RenderScene(IEntity*, RenderCtx&);
 		private:
 			GLFWwindow* NewWindow(const AppSettings&);
 			GLFWwindow* GLFWInit(const AppSettings&);
 	};
-	void RunApp(
-		std::function<void(std::weak_ptr<ResourceManager>)>,
-		std::function<AppSettings(AppSettings)>,
-		std::function<void(Scene&)>
-	);
 }
 
 #endif

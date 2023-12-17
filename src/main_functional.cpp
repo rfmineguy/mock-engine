@@ -2,6 +2,7 @@
 #include <functional>
 #include "Engine/Engine.hpp"
 #include "Engine/App.hpp"
+#include "Engine/Entity.hpp"
 #include "Engine/RenderCtx.hpp"
 #include "Engine/Texture.hpp"
 #include "Engine/TextureAtlas.hpp"
@@ -34,12 +35,14 @@ int main() {
 			settings.enableVsync = true;
 			settings.title = "Game";
 		},
-		[&](Engine::Scene& scene) {
-			scene.GetRoot()->AddChild<PlayerEntity>("player");
-			scene.GetNodeWithId("player")->AddChild<PlayerEntity>("entity");
-			scene.GetNodeWithId("player")->AddChild<PlayerEntity>("entity2");
-			scene.GetNodeWithId("entity2")->AddChild<PlayerEntity>("entity3");
-			scene.Traverse();
+		[&](Engine::IEntity* const root) {
+			spdlog::info("Scene setup");
+			root->AddChild<PlayerEntity>("player");
+			root->GetEntityByID("player")->AddChild<PlayerEntity>("entity");
+			root->GetEntityByID("player")->AddChild<PlayerEntity>("entity2");
+			root->GetEntityByID("entity2")->AddChild<PlayerEntity>("entity3");
+			root->GetEntityByID("entity3")->AddChild<PlayerEntity>("entity4");
+			root->Traverse();
 		}
 	);
 

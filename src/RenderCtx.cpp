@@ -4,6 +4,8 @@
 
 namespace Engine {
 	void RenderCtx::DrawRect(glm::vec2 c1, glm::vec2 c2, Color c) {
+		// quad.Bind();
+		// quad.Unbind();
 	}
 	void RenderCtx::DrawTexturedRect(glm::vec2 c1, glm::vec2 c2, std::shared_ptr<Texture> t, Color c) {
 	}
@@ -51,7 +53,7 @@ namespace Engine {
 		RecomputeTransformation();
 	}
 	void RenderCtx::RecomputeTransformation() {
-		glm::mat4 model(1.0);
+		glm::mat4 model = transformStack.empty() ? glm::mat4(1) : transformStack.top().transform; 		// the transformation to apply the new transformation to
 		model = glm::translate(model, activeTransformation.translation);
 		model = glm::scale(model, activeTransformation.scale);
 		model = glm::rotate(model, glm::radians(activeTransformation.angle), glm::vec3(0, 0, 1));

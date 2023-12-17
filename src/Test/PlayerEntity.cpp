@@ -17,6 +17,11 @@ void PlayerEntity::Update(double dt) {
 	// if (Engine::IsKeyPressed(Engine::Key::A)) {
 	// 	position.x --;
 	// }
+	/*
+	GetChild("hand").Enable();           for getting child of this entity
+	GetParent().Delete();						     for deleting this entity's parent
+	GetNodeID("booger").GetChild("");    for getting a child of an arbitrary entity
+	*/
 }
 
 void PlayerEntity::Render(Engine::RenderCtx& ctx) const {
@@ -26,8 +31,5 @@ void PlayerEntity::Render(Engine::RenderCtx& ctx) const {
 		ctx.Rotate(rotation);
 		ctx.Translate(position);
 		ctx.DrawRect({0, 0}, {10, 10});
-	}
-	else {
-		// spdlog::error("Failed to find player texture");
 	}
 }

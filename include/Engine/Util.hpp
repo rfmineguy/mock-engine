@@ -6,6 +6,7 @@ namespace Engine {
 class Util {
 	public:
 		static std::string ReadFile(const std::string&);
+		static void PrintSpaces(int);
 };
 }
 

@@ -15,13 +15,15 @@ namespace Engine {
 		private:
 			std::shared_ptr<IEntity> entity;
 			std::shared_ptr<ResourceManager> rm;
+			bool shouldDelete;
 		private:
 			Node* parent;
 			std::vector<Node*> children;
 		private:
-			Node(std::shared_ptr<ResourceManager> rm): entity(nullptr), parent(nullptr), rm(rm) {} // NOTE: Should only be used as root node
+			Node(std::shared_ptr<ResourceManager> rm):
+				entity(nullptr), parent(nullptr), rm(rm), shouldDelete(false) {} // NOTE: Should only be used as root node
 			Node(std::shared_ptr<IEntity> entity, std::shared_ptr<ResourceManager> rm):
-				entity(entity), parent(nullptr), children(), rm(rm) {}
+				entity(entity), parent(nullptr), children(), rm(rm), shouldDelete(false) {}
 			~Node() {
 				for (auto* child : children) {
 					delete child;
