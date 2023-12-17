@@ -35,8 +35,8 @@ namespace Engine {
 		quad->Unbind();
 		normalShader->Unbind();
 	}
-	void RenderCtx::DrawTexturedRect(glm::vec2 c1, glm::vec2 c2, std::shared_ptr<Texture> t, Color c) {
-	}
+	// void RenderCtx::DrawTexturedRect(glm::vec2 c1, glm::vec2 c2, std::shared_ptr<Texture> t, Color c) {
+	// }
 	void RenderCtx::DrawLine(glm::vec2 p1, glm::vec2 p2, Color c) {
 	}
 	void RenderCtx::DrawCircle(glm::vec2 center, float r, Color c) {
