@@ -1,11 +1,39 @@
 #include "Engine/RenderCtx.hpp"
+#include "Engine/Geometry.hpp"
 #include "spdlog.h"
 #include "glm/gtx/transform.hpp"
+#include "glad/glad.h"
 
 namespace Engine {
+	RenderCtx::RenderCtx() {}
+
+	RenderCtx::~RenderCtx() {
+		delete quad;
+		delete normalShader;
+	}
+
+	void RenderCtx::Init() {
+		quad = new Geometry(Geometry::LoadData {
+			.vertices = { Geometry::Vertex(glm::vec2 {  0.5f,  0.5f }),
+										Geometry::Vertex(glm::vec2 {  0.5f, -0.5f }),
+										Geometry::Vertex(glm::vec2 { -0.5f, -0.5f }),
+										Geometry::Vertex(glm::vec2 { -0.5f,  0.5f }) },
+			.indices = { 0, 1, 3, 1, 2, 3 }
+		});
+		normalShader = new Shader(Shader::LoadData {
+			.vertex_path = "assets/my_shader.vert.glsl",
+			.fragment_path = "assets/my_shader.frag.glsl"
+		});
+	}
+
 	void RenderCtx::DrawRect(glm::vec2 c1, glm::vec2 c2, Color c) {
-		// quad.Bind();
-		// quad.Unbind();
+		normalShader->Bind();
+		quad->Bind();
+
+		glDrawElements(GL_TRIANGLES, quad->indexCount, GL_UNSIGNED_INT, 0);
+
+		quad->Unbind();
+		normalShader->Unbind();
 	}
 	void RenderCtx::DrawTexturedRect(glm::vec2 c1, glm::vec2 c2, std::shared_ptr<Texture> t, Color c) {
 	}

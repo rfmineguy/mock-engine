@@ -22,10 +22,6 @@ int main() {
 				data.width = 32;
 				data.height = 32;
 			});
-			manager->NewResource<Engine::Shader, Engine::Shader::LoadData>("main_shader", [&](Engine::Shader::LoadData& data) {
-				data.vertex_path = "assets/my_shader.vert.glsl";
-				data.fragment_path = "assets/my_shader.frag.glsl";
-			});
 
 			std::cout << manager->Count() << std::endl;
 		},

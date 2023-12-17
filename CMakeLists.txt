@@ -37,6 +37,7 @@ set (SOURCES
 	src/Scene.cpp
 	src/Logger.cpp
 	src/Shader.cpp
+	src/Geometry.cpp
 	src/Texture.cpp
 	src/TextureAtlas.cpp
 	src/Resource.cpp

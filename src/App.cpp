@@ -66,6 +66,7 @@ namespace Engine {
 		
 		// glad required for this
 		resourceFunc(resourceManager);
+		ctx.Init();
 
 		//
 		// NOTE: The start function for entities is called when they are added to the scene heirarchy

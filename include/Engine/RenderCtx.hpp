@@ -2,6 +2,8 @@
 #define RENDER_CTX_H
 // #include "Vector.hpp"
 #include "Color.hpp"
+#include "Geometry.hpp"
+#include "Shader.hpp"
 #include "Texture.hpp"
 #include "glm/glm.hpp"
 #include <stack>
@@ -14,6 +16,15 @@ namespace Engine {
 		glm::mat4 transform;
 	};
 	class RenderCtx {
+	private:
+		Geometry* quad;
+		Shader* normalShader;
+
+	private:
+		RenderCtx();
+		~RenderCtx();
+		void Init();
+
 	private:
 		Transform activeTransformation;
 		std::stack<Transform> transformStack;
