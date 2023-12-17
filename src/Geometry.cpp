@@ -13,7 +13,7 @@ namespace Engine {
 		glBufferData(GL_ARRAY_BUFFER, loadData.vertices.size() * sizeof(Vertex), loadData.vertices.data(), GL_STATIC_DRAW);
 
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ebo);
-		glBufferData(GL_ELEMENT_ARRAY_BUFFER, loadData.indices.size(), loadData.indices.data(), GL_STATIC_DRAW);
+		glBufferData(GL_ELEMENT_ARRAY_BUFFER, loadData.indices.size() * sizeof(unsigned int), loadData.indices.data(), GL_STATIC_DRAW);
 
 		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Geometry::Vertex), (void*)0);
 		glEnableVertexAttribArray(0);
