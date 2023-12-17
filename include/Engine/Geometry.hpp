@@ -2,6 +2,7 @@
 #define GEOMETRY_HPP
 #include "Resource.hpp"
 #include "glm/gtx/transform.hpp"
+#include <vector>
 
 namespace Engine {
 class Geometry : public Resource {
