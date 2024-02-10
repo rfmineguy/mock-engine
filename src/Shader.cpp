@@ -92,7 +92,7 @@ namespace Engine {
 
 	unsigned int Shader::GetUniformLocation(const std::string& name) {
 		Bind();
-		if (!uniformLocationMap.contains(name)) {
+		if (uniformLocationMap.find(name) == uniformLocationMap.end()) {
 			unsigned int loc = glGetUniformLocation(shaderID, name.c_str());
 			if (loc < 0) spdlog::warn("Couldnt find uniform {}", name);
 			uniformLocationMap.emplace(name, loc);
