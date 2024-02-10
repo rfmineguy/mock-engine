@@ -18,7 +18,10 @@ namespace Engine {
 	class RenderCtx {
 	private:
 		Geometry* quad;
-		Shader* normalShader;
+		Shader *normalShader, *circleShader;
+		int width, height;
+	private:
+		glm::mat4 view, proj;
 
 	private:
 		RenderCtx();
@@ -28,8 +31,6 @@ namespace Engine {
 	private:
 		Transform activeTransformation;
 		std::stack<Transform> transformStack;
-		//TODO: Work on adding actual geometry
-		// Mesh quad; 
 
 	private:
 		void RecomputeTransformation();
@@ -52,6 +53,8 @@ namespace Engine {
 		void Rotate(float);
 		void Translate(glm::vec2);
 		void Scale(glm::vec2);
+	public:
+		void UpdateSize(int, int);
 
 	public:
 		void RenderBatches() const; // NOTE: For later.

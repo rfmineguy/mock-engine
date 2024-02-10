@@ -31,6 +31,8 @@ namespace Engine {
 		GLFWwindow* w = glfwCreateWindow(
 			settings.windowSize.x, settings.windowSize.y, settings.title.c_str(), nullptr, nullptr
 		);
+		glfwSetWindowUserPointer(w, this);
+		glfwSetFramebufferSizeCallback(w, framebuffer_size_callback);
 		return w;
 	}
 
@@ -50,6 +52,13 @@ namespace Engine {
 		spdlog::info("Created glfw window");
 		return w;
 	}
+	void App::framebuffer_size_callback(GLFWwindow* window, int width, int height) {
+		App* app = (App*) glfwGetWindowUserPointer(window);
+		app->currentAppSettings.windowSize = glm::vec2(width, height);
+		app->ctx.UpdateSize(width, height);
+		glViewport(0, 0, width, height);
+		spdlog::info("{}x{}", width, height);
+	}
 
 	void App::Run() {
 		// Run some preliminary initialization
@@ -58,15 +67,19 @@ namespace Engine {
 		// Get app settings
 		AppSettings settings = AppSettings{};
 		appSettingsFunc(settings);
+		currentAppSettings = settings;
 		GLFWwindow* w = GLFWInit(settings);
 
 		// Load glad
 		int version = gladLoadGL();
 		spdlog::info("Glad GL version {}", version);
+		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+		glEnable(GL_BLEND);
 		
 		// glad required for this
 		resourceFunc(resourceManager);
 		ctx.Init();
+		ctx.UpdateSize(settings.windowSize.x, settings.windowSize.y);
 
 		//
 		// NOTE: The start function for entities is called when they are added to the scene heirarchy
@@ -79,7 +92,9 @@ namespace Engine {
 		// Main loop ...
 		double t, fps;
 		double t0 = glfwGetTime();
-		double deltaTime = 0;
+		double currentFrame = glfwGetTime();
+		double lastFrame = 0;
+		deltaTime = currentFrame - lastFrame;
 
 		int frameCount = 0;
 		while (!glfwWindowShouldClose(w)) {
@@ -118,6 +133,7 @@ namespace Engine {
 		else {
 			// Render node. RenderCtx transformation will be updated here
 			if (!node->resourceManager) node->resourceManager = resourceManager; 
+			node->Update(deltaTime);
 			node->Render(ctx);
 		}
 

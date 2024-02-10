@@ -1,10 +1,11 @@
 #include "Test/PlayerEntity.hpp"
+#include "Engine/Color.hpp"
 #include "Engine/RenderCtx.hpp"
 #include "Engine/ResourceManager.hpp"
 #include "spdlog.h"
 #include "Engine/Texture.hpp"
 
-PlayerEntity::PlayerEntity(const std::string& id): IEntity(id) {}
+PlayerEntity::PlayerEntity(const std::string& id): IEntity(id), r(100) {}
 
 PlayerEntity::~PlayerEntity() {}
 
@@ -13,6 +14,9 @@ void PlayerEntity::Start() {
 }
 
 void PlayerEntity::Update(double dt) {
+	time += dt;
+	// r = sin(time) * 50;
+	// spdlog::info("{} : {}", time, r);
 	// spdlog::info("Player entity update -> {}", dt);
 	// if (Engine::IsKeyPressed(Engine::Key::A)) {
 	// 	position.x --;
@@ -25,11 +29,8 @@ void PlayerEntity::Update(double dt) {
 }
 
 void PlayerEntity::Render(Engine::RenderCtx& ctx) const {
-	// NOTE: for some reason resource manager doesn't work in here
-	if (auto t = resourceManager->GetResource<Engine::Texture>("player")) {
-		// spdlog::info("PlayerEntity found player texture");
-		ctx.Rotate(rotation);
-		ctx.Translate(position);
-		ctx.DrawRect({0, 0}, {10, 10});
-	}
+	// ctx.Rotate(rotation);
+	// ctx.Translate(position);
+	ctx.DrawRect({0,0}, {10,10}, Engine::Color::Black());
+	ctx.DrawCircle({0, 0}, 100, Engine::Color::FromRGB(r, 34, 31));
 }

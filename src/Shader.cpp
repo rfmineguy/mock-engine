@@ -2,6 +2,7 @@
 #include "Engine/Util.hpp"
 #include "spdlog.h"
 #include <glad/glad.h>
+#include "glm/gtc/type_ptr.hpp"
 
 namespace Engine {
 	Shader::Shader(const Shader::LoadData& data)
@@ -89,7 +90,26 @@ namespace Engine {
 		glUseProgram(0);
 	}
 
-	void Shader::SetUniformX() const {
-	
+	unsigned int Shader::GetUniformLocation(const std::string& name) {
+		Bind();
+		if (!uniformLocationMap.contains(name)) {
+			unsigned int loc = glGetUniformLocation(shaderID, name.c_str());
+			if (loc < 0) spdlog::warn("Couldnt find uniform {}", name);
+			uniformLocationMap.emplace(name, loc);
+			return -1;
+		}
+		return uniformLocationMap.at(name);
+	}
+
+	void Shader::SetUniform1f(const std::string& name, float v) {
+		glUniform1f(GetUniformLocation(name), v);
+	}
+
+	void Shader::SetUniform4f(const std::string& name, float v1, float v2, float v3, float v4) {
+		glUniform4f(GetUniformLocation(name), v1, v2, v3, v4);
+	}
+
+	void Shader::SetUniformMat4(const std::string& name, glm::mat4 mat) {
+		glUniformMatrix4fv(GetUniformLocation(name), 1, GL_FALSE, glm::value_ptr(mat));
 	}
 }

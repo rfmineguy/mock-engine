@@ -26,18 +26,18 @@ int main() {
 			std::cout << manager->Count() << std::endl;
 		},
 		[&](Engine::AppSettings& settings) {
-			settings.windowSize = Engine::Vector2 {600, 600};
+			settings.windowSize = {600, 600};
 			settings.clearColor = Engine::Color::FromRGB(40, 80, 70);
-			settings.enableVsync = true;
+			// settings.enableVsync = true;
 			settings.title = "Game";
 		},
 		[&](Engine::IEntity* const root) {
 			spdlog::info("Scene setup");
 			root->AddChild<PlayerEntity>("player");
-			root->GetEntityByID("player")->AddChild<PlayerEntity>("entity");
-			root->GetEntityByID("player")->AddChild<PlayerEntity>("entity2");
-			root->GetEntityByID("entity2")->AddChild<PlayerEntity>("entity3");
-			root->GetEntityByID("entity3")->AddChild<PlayerEntity>("entity4");
+			// root->GetEntityByID("player")->AddChild<PlayerEntity>("entity");
+			// root->GetEntityByID("player")->AddChild<PlayerEntity>("entity2");
+			// root->GetEntityByID("entity2")->AddChild<PlayerEntity>("entity3");
+			// root->GetEntityByID("entity3")->AddChild<PlayerEntity>("entity4");
 			root->Traverse();
 		}
 	);

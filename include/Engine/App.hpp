@@ -15,7 +15,7 @@ namespace Engine {
 	struct AppSettings {
 		bool enableVsync;
 		bool resizable;
-		Vector2 windowSize;
+		glm::vec2 windowSize;
 		std::string title;
 		Color clearColor;
 		int glMajorVersion, glMinorVersion;
@@ -43,6 +43,8 @@ namespace Engine {
 			ResourceFunc resourceFunc;
 			AppSettingsFunc appSettingsFunc;
 			SceneFunc sceneFunc;
+			double deltaTime;
+			AppSettings currentAppSettings;
 		public:
 			App(ResourceFunc, AppSettingsFunc, SceneFunc);
 			~App();
@@ -52,6 +54,8 @@ namespace Engine {
 		private:
 			GLFWwindow* NewWindow(const AppSettings&);
 			GLFWwindow* GLFWInit(const AppSettings&);
+		private:
+			static void framebuffer_size_callback(GLFWwindow*, int, int);
 	};
 }
 

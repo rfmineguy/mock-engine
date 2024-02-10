@@ -2,6 +2,9 @@
 #include "Engine/ResourceManager.hpp"
 
 class PlayerEntity : public Engine::IEntity {
+private:
+	int r;
+	float time;
 public:
 	PlayerEntity(const std::string& id);
 	~PlayerEntity();
